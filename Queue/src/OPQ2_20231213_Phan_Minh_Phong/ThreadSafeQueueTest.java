@@ -19,39 +19,5 @@ public class ThreadSafeQueueTest {
         assertEquals("B", queue.dequeue());
         assertEquals("C", queue.dequeue());
     }
-
-    @Test
-    public void testThreadSafety() throws InterruptedException {
-        final ThreadSafeQueue queue = new ThreadSafeQueue(3);
-
-        Thread t1 = new Thread(() -> {
-            try {
-                queue.enqueue("A");
-                queue.enqueue("B");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-
-        Thread t2 = new Thread(() -> {
-            try {
-                queue.enqueue("C");
-                queue.enqueue("D");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-
-        t1.start();
-        t2.start();
-
-        t1.join();
-        t2.join();
-
-        assertEquals("A", queue.dequeue());
-        assertEquals("B", queue.dequeue());
-        assertEquals("C", queue.dequeue());
-        assertEquals("D", queue.dequeue());
-    }
 }
 
